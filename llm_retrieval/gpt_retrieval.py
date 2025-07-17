@@ -6,7 +6,7 @@ from datasets import load_from_disk
 from openai import OpenAI
 import random
 
-os.environ["OPENAI_API_KEY"] = "sk-REDACTED"  # Replace with your real key or load from env
+os.environ["OPENAI_API_KEY"] = "sk-REDACTED"  
 client = OpenAI()
 
 corpus = load_from_disk("/Users/arashalborz/Desktop/llm_legal_document_retrieval/data_processing/data/cleaned_corpus_ds/cleaned_corpus")['fr']  # or 'nl'
