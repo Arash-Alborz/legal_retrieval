@@ -1,0 +1,9 @@
+
+BM25 Evaluation Results for language: FR
+recall@10: 0.2478
+recall@50: 0.3620
+recall@100: 0.4319
+recall@200: 0.4961
+recall@500: 0.5612
+map@100: 0.1379
+mrr@100: 0.1960
