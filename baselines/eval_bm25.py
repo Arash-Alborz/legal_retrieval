@@ -61,7 +61,7 @@ evaluator = Evaluator(metrics_at_k=metrics_at_k)
 os.makedirs("results", exist_ok=True)
 
 for lang in ["fr", "nl"]:
-    bm25_file = f"ranks/bm25_ranked_results_{lang}.json"
+    bm25_file = f"ranks/bm25_ranked_results_{lang}.json"   # bm25_bsard_results_{language}.json , "ranks/bm25_ranked_results_{lang}.json"
     gold_file = f"gold/gold_standard_{lang}.json"
     output_file = f"results/bm25_eval_{lang}.txt"
 

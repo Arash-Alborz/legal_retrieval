@@ -4,44 +4,43 @@ from tqdm import tqdm
 import json
 import os
 
-# loading both corpora
-df_fr = pd.read_csv("../data_processing/data/original_csv/corpus_fr.csv")
-df_nl = pd.read_csv("../data_processing/data/original_csv/corpus_nl.csv")
+# Load preprocessed corpora
+df_fr = pd.read_csv("preprocessed_data/corpus_fr_clean.csv")
+df_nl = pd.read_csv("preprocessed_data/corpus_nl_clean.csv")
 
 corpus_df = pd.concat([df_fr, df_nl], ignore_index=True)
 corpus_texts = corpus_df["article"].astype(str).tolist()
 corpus_ids = corpus_df["id"].astype(str).tolist()
-tokenized_corpus = [doc.lower().split() for doc in corpus_texts]
+tokenized_corpus = [doc.split() for doc in corpus_texts]  # already lowercased & lemmatized
 
-bm25 = BM25Okapi(tokenized_corpus)
+#bm25 = BM25Okapi(tokenized_corpus)
+bm25 = BM25Okapi(tokenized_corpus, k1=1.0, b=0.6)
 
-df_q_fr = pd.read_csv("../data_processing/data/cleaned_queries_csv/cleaned_test_queries_fr.csv")
-df_q_nl = pd.read_csv("../data_processing/data/cleaned_queries_csv/cleaned_test_queries_nl.csv")
+# Load preprocessed queries
+df_q_fr = pd.read_csv("preprocessed_data/queries_fr_clean.csv")
+df_q_nl = pd.read_csv("preprocessed_data/queries_nl_clean.csv")
 
 queries_by_lang = {
     "fr": [
-        (str(row["id"]), row["article_ids"]) for _, row in df_q_fr.iterrows()
+        (str(row["id"]), row["question"], row["article_ids"])
+        for _, row in df_q_fr.iterrows()
     ],
     "nl": [
-        (str(row["id"]), row["article_ids"]) for _, row in df_q_nl.iterrows()
+        (str(row["id"]), row["question"], row["article_ids"])
+        for _, row in df_q_nl.iterrows()
     ]
 }
 
 os.makedirs("ranks", exist_ok=True)
 
 for lang, queries in queries_by_lang.items():
-    print(f"\n🔷 Processing language: {lang.upper()}")
+    print(f"\nProcessing language: {lang.upper()}")
 
-    ranked_results_simple = {}      # {query_id: [doc_ids]}
+    ranked_results_simple = {}       # {query_id: [doc_ids]}
     ranked_results_with_scores = []  # list of dicts
 
-    for query_id, relevant_str in tqdm(queries, desc=f"Ranking {lang.upper()} queries"):
-        query_tokens = query_id.lower().split()
-        if lang == "fr":
-            question = df_q_fr.loc[df_q_fr["id"].astype(str) == query_id, "question"].values[0]
-        else:
-            question = df_q_nl.loc[df_q_nl["id"].astype(str) == query_id, "question"].values[0]
-        query_tokens = question.lower().split()
+    for query_id, query_text, relevant_str in tqdm(queries, desc=f"Ranking {lang.upper()} queries"):
+        query_tokens = query_text.split()  # already preprocessed
 
         scores = bm25.get_scores(query_tokens)
         ranked_indices = scores.argsort()[::-1]
@@ -50,7 +49,7 @@ for lang, queries in queries_by_lang.items():
         ranked_results_simple[query_id] = ranked_doc_ids
 
         ranked_list = [
-            {"doc_id": corpus_ids[i], "score": float(scores[i]), "rank": rank+1}
+            {"doc_id": corpus_ids[i], "score": float(scores[i]), "rank": rank + 1}
             for rank, i in enumerate(ranked_indices)
         ]
 

@@ -7,8 +7,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 os.makedirs("ranks", exist_ok=True)
 
-df_fr = pd.read_csv("../data_processing/data/original_csv/corpus_fr.csv")
-df_nl = pd.read_csv("../data_processing/data/original_csv/corpus_nl.csv")
+# === Load preprocessed corpora ===
+df_fr = pd.read_csv("preprocessed_data/corpus_fr_clean.csv")
+df_nl = pd.read_csv("preprocessed_data/corpus_nl_clean.csv")
 corpus_df = pd.concat([df_fr, df_nl], ignore_index=True)
 
 corpus_texts = corpus_df["article"].astype(str).tolist()
@@ -24,7 +25,7 @@ print(f"TF-IDF vectorizer fitted on corpus.")
 for lang in ["fr", "nl"]:
     print(f"\nProcessing language: {lang.upper()}")
 
-    df_q = pd.read_csv(f"../data_processing/data/cleaned_queries_csv/cleaned_test_queries_{lang}.csv")
+    df_q = pd.read_csv(f"preprocessed_data/queries_{lang}_clean.csv")
 
     queries = [
         (str(row["id"]), row["question"], row["article_ids"])
@@ -65,3 +66,5 @@ for lang in ["fr", "nl"]:
     with open(f"ranks/tfidf_ranked_results_{lang}_with_scores.jsonl", "w", encoding="utf-8") as f:
         for entry in detailed_output:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+print("\nTF-IDF ranking completed.")
