@@ -13,14 +13,15 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # choose language
-lang = 'nl'  # or 'fr'
+lang = 'fr'  # or 'nl'
 
 # output folder
-output_dir = Path("llm_retrieval/results")
+output_dir = Path("retrievals")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # load corpus
-corpus_csv_path = f"../data_processing/data/original_csv/corpus_{lang}.csv"
+#corpus_csv_path = f"../data_processing/data/original_csv/corpus_{lang}.csv"
+corpus_csv_path = f"../data_processing/data/cleaned_corpus/corpus_{lang}_cleaned.csv"
 df_corpus = pd.read_csv(corpus_csv_path)
 id_to_doc = dict(zip(df_corpus['id'].astype(str), df_corpus['article']))
 
@@ -38,7 +39,7 @@ with open(
     entries = [json.loads(line) for line in f]
 
 # optional: slice for testing
-entries = entries[4:5]  # adjust as needed
+#entries = entries[:5]  # adjust as needed
 
 def build_user_message(query_id, query_text, candidate_docs):
     msg = (
@@ -49,16 +50,18 @@ def build_user_message(query_id, query_text, candidate_docs):
     for doc in candidate_docs:
         doc_id = doc['doc_id']
         article = id_to_doc[doc_id].strip().replace("\n", " ")
-        article = " ".join(article.split()[:470])  # truncate to first 470 words
+        article = " ".join(article.split())  # truncate articles [:500]
         msg += f"[{doc_id}] {article}\n\n"
     msg += (
+        f"You must only select relevant article IDs from the documents listed above. "
+        f"Use the IDs exactly as shown inside brackets in front of the article text.\n\n"
         f"Output the result in plain text. Write exactly two lines.\n"
         f"On the first line write: query id: {query_id}\n"
         f"On the second line write: relevant articles: followed by a comma-separated list of the IDs of the relevant documents.\n"
         f"If no documents are relevant, leave the list empty.\n"
         f"Example output:\n"
         f"query id: 4\n"
-        f"relevant articles: 2222, 2242\n"
+        f"relevant articles: 5851, 2242\n"
         f"or if none:\n"
         f"query id: 4\n"
         f"relevant articles:\n"
@@ -81,7 +84,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[
                 {
                     "role": "system",
@@ -118,10 +121,9 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     print(f"GPT Answer:\n{raw_answer}")
     print(f"Tokens - Input: {input_tokens}, Output: {output_tokens}\n")
 
-    time.sleep(30)  # adjust if hitting TPM limit
+#    time.sleep(30)  # adjust for TPM limit
 
-# save all results to a single .txt file
-all_results_file = output_dir / f"results_{lang}.txt"
+all_results_file = output_dir / f"gpt4omini_retrievals_{lang}.txt"
 with open(all_results_file, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
 

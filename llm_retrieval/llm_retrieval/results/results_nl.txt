@@ -1,2 +1,0 @@
-query id: 25  
-relevant articles: 5644, 5663, 1057, 1077
