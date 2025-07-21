@@ -1,0 +1,406 @@
+query id: 4
+relevant articles: 2222
+query id: 7
+relevant articles: 2222
+query id: 16
+relevant articles: 867, 849, 848, 2484, 2487, 2491, 2493, 2497, 2502, 2503, 2505, 2515, 2518, 2519, 2526, 2527, 2528, 2529, 5560, 5559, 864, 863, 861, 8590, 850, 856, 861
+query id: 17
+relevant articles: 2504, 2505
+query id: 25
+relevant articles: 1057, 2165, 5663
+query id: 26
+relevant articles: 2845
+query id: 32
+relevant articles: 22121, 17109, 17474, 17475, 22164, 22167, 22155, 22158, 22168, 22041, 22197, 16001, 22389, 22391, 22123, 22119, 22148, 22170, 22127, 22151
+query id: 39
+relevant articles: 16384, 16599, 16592, 16404, 16390, 16360
+query id: 40
+relevant articles: 16470, 16592, 16384, 16390, 16599
+query id: 47
+relevant articles: 2836, 2844, 19222
+query id: 54
+relevant articles: 14193, 14194, 14199, 14250, 14251, 14254, 14255, 14201, 14365
+query id: 65
+relevant articles: 2134
+query id: 69
+relevant articles: 2127, 2143, 2140, 2141, 2146, 2134, 2135, 2144
+query id: 72
+relevant articles: 547, 5701, 5987, 16123
+query id: 79
+relevant articles: 5712, 5713, 5714
+query id: 88
+relevant articles: 5664, 14213, 14275, 6967, 6968, 6965, 6966, 6969, 6976, 6977, 6978, 6815, 6816, 6817, 6979, 6980
+query id: 93
+relevant articles: 5850, 5788, 5727, 13564, 5782, 5851
+query id: 96
+relevant articles: 7395, 7393, 7406, 7413, 7414, 7388, 10045, 10038, 10036, 5965, 5966, 5967, 5968
+query id: 101
+relevant articles: 3808, 3815
+query id: 105
+relevant articles: 5952, 5953, 5956, 5957, 5958, 5963, 5964, 5965, 5966, 5967, 5968, 5972, 5973, 5974, 5975, 5978, 5984, 5985, 5986, 5990, 5991
+query id: 108
+relevant articles: 5989, 5987, 5963, 5964, 5962
+query id: 110
+relevant articles: 1077, 5961, 5958, 5726
+query id: 113
+relevant articles: 5959, 5960, 5961, 5974, 5976, 5980, 5982, 5984, 5985, 5988, 5980, 5981, 5979
+query id: 116
+relevant articles: 5958, 5959, 5960, 5961
+query id: 117
+relevant articles: 5959, 5958, 5955, 5954, 5951, 5960, 5961, 5965, 5969, 5973, 5974, 5976, 5977, 5978, 5980, 5982
+query id: 132
+relevant articles: 5951, 5960, 5970, 5976, 5978, 5989, 5966, 5973, 5974
+query id: 140
+relevant articles: 5950, 5951, 5953, 5954, 5955, 5956, 5957, 5958, 5959, 5960, 5961, 5962, 5963, 5973, 5974, 5976, 5977, 5981, 5982, 5988
+query id: 142
+relevant articles: 5702, 5703, 5967, 5968
+query id: 146
+relevant articles: 5702, 5703
+query id: 150
+relevant articles: 15382
+query id: 168
+relevant articles: 1856, 1854, 1835, 1800
+query id: 171
+relevant articles: 1863, 1864, 1865, 1866, 1868, 1811, 1919, 1884, 1893, 1891, 1893, 1905, 1900
+query id: 172
+relevant articles: 1801, 1919, 1920, 1811
+query id: 173
+relevant articles: 1654, 1819, 1818
+query id: 178
+relevant articles: 1126, 18547
+query id: 182
+relevant articles: 1127, 1120, 1119, 1124, 1123, 15809
+query id: 201
+relevant articles: 1032, 15788, 15791
+query id: 203
+relevant articles: 1297, 1296, 1292, 1319, 1320, 1321, 1322, 1323, 1325, 1327, 1332, 1333, 1334, 1335, 1336, 1315, 1317, 1318, 1319, 1310, 1309, 1308, 1306, 1311, 1312, 1313, 1316, 1338, 5405, 5406, 5407, 1957, 1958, 1943, 1944, 1945, 1952, 1954, 1298, 1292, 1296, 1297, 13532, 10595
+query id: 205
+relevant articles: 18551, 18552, 18550, 18559, 18560, 22222
+query id: 214
+relevant articles: 18537, 18540, 18547
+query id: 215
+relevant articles: 18547, 18540, 18548, 18551, 18557
+query id: 219
+relevant articles: 18548, 18550, 18540, 18546, 18547, 18551, 18548, 18549, 18543, 18544, 18557, 18555, 18556
+query id: 220
+relevant articles: 18537, 18540
+query id: 228
+relevant articles: 18548, 18541, 18544, 18543, 18542, 18545, 18561, 9852, 18557, 18561, 18544, 18557, 18561, 18545, 18557, 18561, 18544, 18542, 18557, 18561, 18548, 18544
+query id: 230
+relevant articles: 18544, 18545, 18547
+query id: 231
+relevant articles: 18548, 18545, 10211
+query id: 238
+relevant articles: 102, 1023, 1024
+query id: 257
+relevant articles: 1289, 5455
+query id: 260
+relevant articles: 1277, 5096, 5097, 1276, 1278, 1282, 1281
+query id: 262
+relevant articles: 1289, 1277, 4699
+query id: 264
+relevant articles: 5450, 1277, 1297, 1289, 1292, 5468, 5491, 5096
+query id: 274
+relevant articles: 1101, 1102, 1103, 1105, 1094, 1120
+query id: 275
+relevant articles: 1008, 1100, 1103, 1106, 1113, 1124, 1125, 15805, 15806, 1277
+query id: 281
+relevant articles: 1094, 1102, 1103, 1121, 1122, 1124, 1120, 1101
+query id: 292
+relevant articles: 2222, 2221, 1276, 1277, 1282, 1288, 5402, 6557
+query id: 294
+relevant articles: 3740, 1277, 1282, 1276, 4810, 4699, 2222, 7150, 6557
+query id: 301
+relevant articles: 1305, 1306, 1307, 1308, 1309, 1311, 1312, 1314, 1316, 1318, 1320, 1323, 1324, 1325, 1326, 1334, 1335, 1338, 1339, 1345, 1351, 1353, 1798, 4646, 4647, 4648, 4651, 4693, 4849, 4850, 4851, 4852, 5285, 5311, 5357, 5409, 5410
+query id: 304
+relevant articles: 1308, 1376
+query id: 310
+relevant articles: 1318, 1319, 1320, 1321, 5285, 1336, 1329, 1333, 1345, 1306, 1308, 1309, 1310, 1311, 1312, 1315, 5406, 5407, 5409
+query id: 316
+relevant articles: 1057
+query id: 323
+relevant articles: 1056
+query id: 336
+relevant articles: 1055, 1056, 1067, 6549
+query id: 341
+relevant articles: 1055, 1056, 5513, 5514, 5564
+query id: 343
+relevant articles: 1150, 1153, 1056, 6549
+query id: 345
+relevant articles: 1060, 1064, 1065, 1066, 1067, 1057
+query id: 358
+relevant articles: 5963, 5973, 5974, 5988, 5960, 5961, 5984, 5985, 5980, 5981, 5982, 5976, 5670, 5950, 5951, 5952, 5954, 5955, 5958, 5959, 5963, 5977
+query id: 365
+relevant articles: 1403, 1407
+query id: 367
+relevant articles: 1397, 1403, 1381, 1410, 1411, 1394, 1390, 1395, 1413, 985, 1386
+query id: 371
+relevant articles: 1424, 1425, 1426, 1427, 1375, 1423, 1381, 1386, 1413, 1415, 1395, 1397, 1410, 1442
+query id: 373
+relevant articles: 1424, 1425, 1426, 1427, 5415, 5419, 5444, 5457, 1389, 1394, 1395, 1398, 1402, 1405, 1410, 1413, 1375, 1381, 1356, 6916, 20773, 20754, 20772, 20774, 20775, 20766, 20808, 20820, 20821, 20824, 20825, 20826, 20827
+query id: 375
+relevant articles: 1356, 1395, 1397, 1385
+query id: 386
+relevant articles: 1356, 1381, 1367
+query id: 394
+relevant articles: 1362, 1364, 1397, 1372, 1400, 1401, 1356
+query id: 400
+relevant articles: 13088, 5449, 4820
+query id: 404
+relevant articles: 6056
+query id: 411
+relevant articles: 2328, 2332, 2333, 2334, 1676, 1765, 2130, 2269, 2270, 6506, 6504, 6505
+query id: 412
+relevant articles: 1676, 2332, 2333, 2334, 2329, 2335, 6505, 15674, 15596, 1765
+query id: 417
+relevant articles: 2334, 2335, 2336, 2328, 2329, 2330, 2331, 2332, 2333
+query id: 418
+relevant articles: 2328, 2330, 2331, 2329, 2333, 2335, 1676, 2130
+query id: 420
+relevant articles: 2333, 2334, 2335, 2336, 167, 176, 229, 2290, 2291
+query id: 422
+relevant articles: 2328, 2329, 2330, 2331, 2334, 2336, 2332, 6504, 6505
+query id: 424
+relevant articles: 2329, 2334, 2336, 2330, 2331, 6504, 6505, 2332, 2333, 4597, 4596, 4598, 5452
+query id: 425
+relevant articles: 2328, 2329, 2330, 2331, 2332, 2334, 2335, 2336
+query id: 430
+relevant articles: 2332, 2334, 2335, 2336, 4596, 4597, 4598
+query id: 434
+relevant articles: 6011, 6012, 6015, 6016, 6017, 5479, 5468
+query id: 440
+relevant articles: 1082, 5466, 5467
+query id: 444
+relevant articles: 1083, 5467, 5482, 5483, 5501, 5502, 5476, 5478, 1084, 1364
+query id: 447
+relevant articles: 5482, 5483, 1083
+query id: 454
+relevant articles: 2249, 2253, 2256, 15674, 15690, 15596
+query id: 463
+relevant articles: 1071, 1073
+query id: 471
+relevant articles: 1071
+query id: 493
+relevant articles: 1082, 5466, 1084, 5469, 5496, 5476, 5501, 5502, 5478, 5489, 5497
+query id: 495
+relevant articles: 1464, 1458, 1563, 1591, 1593, 1461
+query id: 498
+relevant articles: 2330, 18323
+query id: 500
+relevant articles: 10066, 10067, 10072, 7342
+query id: 501
+relevant articles: 7445, 10066, 10067, 7342
+query id: 506
+relevant articles: 10067, 10066, 7342, 4596, 4597, 4598, 13184, 3973, 13096, 815
+query id: 511
+relevant articles: 4597, 4598, 13174, 13164, 2230, 10067, 10066, 7445
+query id: 512
+relevant articles: 5467, 4596, 4598, 10067, 10066, 7342, 7355, 1008, 2000, 2798, 6615
+query id: 514
+relevant articles: 4597, 4598, 4596, 10066, 10067, 7342, 6584
+query id: 515
+relevant articles: 10067, 10066, 7342, 7419
+query id: 516
+relevant articles: 10067, 9633, 7342, 7442, 10066
+query id: 524
+relevant articles: 2334, 2102, 2766, 15596, 15674
+query id: 532
+relevant articles: 1288, 1277, 1289, 2334, 2336, 5454, 5451, 5452, 5466, 5468, 4596, 4597, 4598, 4699, 15775
+query id: 534
+relevant articles: 2336, 6505
+query id: 542
+relevant articles: 1082, 5467, 5478, 4597, 4598
+query id: 550
+relevant articles: 1071, 2512, 2513, 2518, 2519
+query id: 560
+relevant articles: 1101, 1096, 1102, 1124, 1127, 1103, 1111, 1094, 1100, 1142, 1125, 1123, 1113, 1109, 1099, 1108
+query id: 562
+relevant articles: 1101, 1120, 1119, 1124, 1102, 1103, 1104, 1113, 1125, 1100, 1105, 1106, 1094, 1093, 1111
+query id: 585
+relevant articles: 3983, 3984, 3985, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 5449, 544
+query id: 601
+relevant articles: 4486, 4462, 4815
+query id: 614
+relevant articles: 22195
+query id: 632
+relevant articles: 13310, 12661, 11426, 11586, 11487, 11432, 11479, 11475, 11480, 11484, 11483, 13310, 11489
+query id: 633
+relevant articles: 15279, 11795, 13310
+query id: 634
+relevant articles: 13310
+query id: 635
+relevant articles: 6164, 6160, 6161
+query id: 636
+relevant articles: 6849, 6161, 6162, 6160
+query id: 637
+relevant articles: 6161, 6163, 6160, 6138, 6162, 6168
+query id: 638
+relevant articles: 13442, 13681, 13678
+query id: 645
+relevant articles: 6106, 6107
+query id: 646
+relevant articles: 6105, 6106, 6107, 6108, 6109
+query id: 649
+relevant articles: 6103, 6104, 6111, 6114
+query id: 664
+relevant articles: 13056, 13150, 13389, 13390, 13408, 13406, 5026, 5027, 5017, 5012, 5013, 13110, 13229, 13124, 13126, 13127, 13180, 13181, 13234, 13235, 13393, 13394, 13182
+query id: 672
+relevant articles: 13056, 6690, 13012, 13083, 6723
+query id: 711
+relevant articles: 18772, 4777, 5987, 19674, 15645, 18753, 5556, 5937, 5938
+query id: 721
+relevant articles: 6117, 6118, 6119, 6120, 6121, 13024, 13015, 13029, 13091, 13565, 13567
+query id: 724
+relevant articles: 13138,13541
+query id: 725
+relevant articles: 12994, 6434, 6435, 6436, 6437, 6438, 6439, 6630, 6641, 13029, 13040
+query id: 726
+relevant articles: 6730, 6731
+query id: 727
+relevant articles: 6730, 6731, 12872, 12871
+query id: 733
+relevant articles: 5561, 5562, 5560, 5563, 556, 5559
+query id: 746
+relevant articles: 848, 853, 690
+query id: 748
+relevant articles: 5565, 5566, 5567, 5563, 5562, 5558, 5559, 5564
+query id: 759
+relevant articles: 623, 11819, 11820, 11822, 11827, 11891, 11895, 11896, 11902, 11906, 12078
+query id: 761
+relevant articles: 12078, 11822, 11827, 11823, 11820, 623, 6579, 67685, 657, 11844, 11841, 11839, 11840, 12192, 6785
+query id: 766
+relevant articles: 11818, 11822, 11823, 11827, 615, 617, 623, 11908, 11909, 11824, 11825, 11826, 11821, 11819, 11820, 11822
+query id: 768
+relevant articles: 11812, 11817, 11822, 11827, 628, 11908, 11909, 11895, 629, 2490
+query id: 771
+relevant articles: 15205, 11827, 623, 11822, 11819, 11815, 11810, 11814, 11831, 11839, 11841, 11890, 11895, 11811, 11820, 11831, 11815, 11814, 11839, 11841, 11890, 11895, 11819, 11822, 11827, 623, 15205
+query id: 775
+relevant articles: 11822, 12056, 12058
+query id: 783
+relevant articles: 6590, 6594, 5565, 5566, 5567, 5568, 5569
+query id: 784
+relevant articles: 5560, 5562, 5561, 5559, 5558
+query id: 785
+relevant articles: 5562, 5725, 5808, 5813, 5817
+query id: 786
+relevant articles: 5561, 5562, 5563, 5568, 11823, 11827, 11832, 11833, 11822, 620, 632, 2520, 2523, 2524, 2532, 2518, 2513, 2515, 2510, 5560
+query id: 787
+relevant articles: 5560, 5561, 5562, 5563, 5564, 5558, 5559, 5557
+query id: 795
+relevant articles: 17605, 2969, 10813, 16002
+query id: 819
+relevant articles: 11831, 12074, 12075, 12078, 11833, 11906, 11900
+query id: 822
+relevant articles: 486, 887, 885, 886, 12064, 12059, 626, 848, 734, 752
+query id: 823
+relevant articles: 5560, 5561, 5562, 5563, 5568, 5561
+query id: 824
+relevant articles: 12010, 11900, 11951, 11960, 11961, 11983, 11987, 11995, 11998, 12000
+query id: 826
+relevant articles: 11823, 11839, 11840, 11841, 12088
+query id: 830
+relevant articles: 11829, 11828, 11893, 11830
+query id: 835
+relevant articles: 11831, 11832, 11833, 12078
+query id: 839
+relevant articles: 836
+query id: 841
+relevant articles: 2514, 2518, 2513, 2512, 2519, 2494, 853, 845, 885, 2525
+query id: 845
+relevant articles: 2501, 2502, 838
+query id: 846
+relevant articles: 2501, 2500, 838, 848
+query id: 861
+relevant articles: 5560, 5561, 5562, 5563
+query id: 864
+relevant articles: 5561, 5563, 5562, 5564, 5560, 5562, 5563, 5564, 5560, 5561, 5562, 5563, 5564, 5560, 5561, 5562, 5563, 5564, 5560
+query id: 867
+relevant articles: 626, 623, 11895, 628, 11908, 11909, 11922, 11832, 856
+query id: 873
+relevant articles: 849, 856, 859, 881, 884, 886, 857, 877, 752, 856
+query id: 875
+relevant articles: 856, 839
+query id: 877
+relevant articles: 856
+query id: 880
+relevant articles: 857, 848, 886
+query id: 881
+relevant articles: 857, 845, 2513, 2514, 2518, 2519, 2511, 2512, 2494
+query id: 888
+relevant articles: 857, 876, 881
+query id: 893
+relevant articles: 859, 856, 857, 886, 876, 881, 877, 870, 848
+query id: 897
+relevant articles: 856, 859, 14649, 2511, 2512
+query id: 904
+relevant articles: 848, 2513, 2514, 2531, 862
+query id: 907
+relevant articles: 726, 777, 868, 869
+query id: 921
+relevant articles: 19026
+query id: 922
+relevant articles: 2504, 2503, 2497, 2491, 2487, 2481, 2482, 848, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867, 868, 875, 876, 879, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 890
+query id: 930
+relevant articles: 1490, 1491, 1494, 1497, 16629
+query id: 933
+relevant articles: 841, 4643, 4640, 4642
+query id: 934
+relevant articles: 2496, 2495, 2494, 861, 860, 843, 835, 812, 811
+query id: 935
+relevant articles: 842, 2836
+query id: 936
+relevant articles: 2495, 842
+query id: 939
+relevant articles: 842
+query id: 943
+relevant articles: 860, 2490, 2488, 2511, 2512
+query id: 945
+relevant articles: 839, 860
+query id: 954
+relevant articles: 841, 2484, 2486, 837, 839
+query id: 961
+relevant articles: 839, 860
+query id: 963
+relevant articles: 839, 860, 861, 848, 853, 879, 856, 840, 11832, 837, 615, 616, 11833, 11822, 11835, 11836, 12075, 12074, 11890, 11882, 779, 732, 676, 651, 729, 639, 611, 627, 628, 618
+query id: 971
+relevant articles: 5725, 5723, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572, 572,
+query id: 982
+relevant articles: 881
+query id: 983
+relevant articles: 880, 881
+query id: 989
+relevant articles: 881
+query id: 991
+relevant articles: 2500, 2501, 2502, 838, 848, 882
+query id: 994
+relevant articles: 868, 726, 777, 11863, 11905, 790
+query id: 995
+relevant articles: 842
+query id: 1001
+relevant articles: 833, 873, 854, 2512, 2513, 2514, 2518, 2519, 2525, 885
+query id: 1002
+relevant articles: 873, 876, 875
+query id: 1005
+relevant articles: 873, 875, 876
+query id: 1033
+relevant articles: 6754, 1457
+query id: 1039
+relevant articles: 16602
+query id: 1040
+relevant articles: 4621
+query id: 1049
+relevant articles: 5702, 5703, 9889
+query id: 1053
+relevant articles: 948, 947, 18344
+query id: 1081
+relevant articles: 18316, 18525
+query id: 1086
+relevant articles: 7645, 10597, 7644, 10573, 10683, 10565, 10596, 10588, 10591, 10565, 10563
+query id: 1088
+relevant articles: 6546, 6545
+query id: 1093
+relevant articles: 6614, 15029, 15343, 3348, 11362, 11363, 15189, 13870, 10654, 20916, 20851, 16400, 15188, 21075, 19659, 3397, 5655, 22204
+query id: 1099
+relevant articles: 13049, 13010, 13051, 13053, 13054, 13065, 13066, 13067, 13062, 13063, 13064, 13080, 6617, 15183, 15231, 13048, 13043, 6615, 6238
+query id: 1103
+relevant articles: 22012, 22018, 22011, 21857, 21630

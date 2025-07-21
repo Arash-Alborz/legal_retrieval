@@ -2,8 +2,8 @@ import re
 import json
 from pathlib import Path
 
-results_txt = Path("retrievals/gpt4omini_retrievals_fr.txt") # change name of the file
-output_json = Path("retrievals/gpt4omini_retrievals_fr.json") # output
+results_txt = Path("retrievals/gpt_4.1_mini_retrievals_fr.txt") # change name of the file
+output_json = Path("retrievals/gpt_4.1_mini_retrievals_fr.json") # output
 
 pattern_query = re.compile(r"^query id:\s*(\d+)")
 pattern_relevant = re.compile(r"^relevant articles:\s*(.*)")

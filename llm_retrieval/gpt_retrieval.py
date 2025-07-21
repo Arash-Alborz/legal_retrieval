@@ -84,7 +84,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini-2025-04-14",
             messages=[
                 {
                     "role": "system",
@@ -98,8 +98,9 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
                     "content": user_message
                 }
             ],
-            temperature=0.0,
+            #temperature=0.0,
             max_tokens=300
+            #max_completion_tokens=300
         )
     except Exception as e:
         print(f"Error with query {query_id}: {e}")
@@ -123,7 +124,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
 #    time.sleep(30)  # adjust for TPM limit
 
-all_results_file = output_dir / f"gpt4omini_retrievals_{lang}.txt"
+all_results_file = output_dir / f"gpt_4.1_mini_retrievals_{lang}.txt"
 with open(all_results_file, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
 
