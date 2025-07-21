@@ -1,0 +1,44 @@
+=== Statistics for language: FR ===
+
+Total Words (in 100 docs per query):
+count      203.000000
+mean     23812.359606
+std       6935.895663
+min       6265.000000
+25%      18975.500000
+50%      23403.000000
+75%      28420.500000
+max      40998.000000
+
+Missing Docs (in 100 docs per query):
+count    203.0
+mean       0.0
+std        0.0
+min        0.0
+25%        0.0
+50%        0.0
+75%        0.0
+max        0.0
+
+=== Statistics for language: NL ===
+
+Total Words (in 100 docs per query):
+count      203.000000
+mean     22563.310345
+std       6651.436819
+min       8261.000000
+25%      17574.000000
+50%      22393.000000
+75%      26977.000000
+max      41883.000000
+
+Missing Docs (in 100 docs per query):
+count    203.0
+mean       0.0
+std        0.0
+min        0.0
+25%        0.0
+50%        0.0
+75%        0.0
+max        0.0
+

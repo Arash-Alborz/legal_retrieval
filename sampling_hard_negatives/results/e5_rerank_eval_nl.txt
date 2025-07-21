@@ -1,0 +1,17 @@
+E5 Reranking Evaluation Results for language: NL
+recall@10: 0.5339
+recall@20: 0.6689
+recall@50: 0.8503
+recall@100: 1.0059
+map@1: 0.2110
+map@5: 0.3397
+map@10: 0.3635
+map@100: 0.3984
+mrr@1: 0.3842
+mrr@5: 0.4756
+mrr@10: 0.4822
+mrr@100: 0.4969
+ndcg@1: 0.3842
+ndcg@5: 0.4123
+ndcg@10: 0.4396
+ndcg@100: 0.5653

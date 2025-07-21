@@ -1,0 +1,17 @@
+Jina Reranking Evaluation Results for language: FR
+recall@10: 0.5360
+recall@20: 0.6530
+recall@50: 0.8388
+recall@100: 1.0091
+map@1: 0.1359
+map@5: 0.2332
+map@10: 0.2719
+map@100: 0.3083
+mrr@1: 0.2562
+mrr@5: 0.3646
+mrr@10: 0.3907
+mrr@100: 0.4009
+ndcg@1: 0.2562
+ndcg@5: 0.3016
+ndcg@10: 0.3708
+ndcg@100: 0.4974
