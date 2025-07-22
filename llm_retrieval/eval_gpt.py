@@ -3,11 +3,11 @@ from pathlib import Path
 from tqdm import tqdm
 from statistics import mean
 
-predictions_json = Path("retrievals/gpt4omini_retrievals_nl.json")
+predictions_json = Path("retrievals/json/gpt4.1.mini_pw_retrievals_nl.json")
 gold_json = Path("gold_data/gold_standard_nl.json")
 output_dir = Path("evaluation")
 output_dir.mkdir(parents=True, exist_ok=True)
-output_file = output_dir / "evaluation_gpt4o_mini_nl.txt"
+output_file = output_dir / "eval_pw_gpt4.1_mini_nl.txt"
 
 ks = [1, 5, 10, 20, 50, 100]
 

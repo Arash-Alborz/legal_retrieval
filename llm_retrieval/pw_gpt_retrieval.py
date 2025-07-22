@@ -13,7 +13,7 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # choose language
-lang = 'fr'  # or 'nl'
+lang = 'nl'  # or 'nl'
 
 # output folder
 output_dir = Path("retrievals")
@@ -98,9 +98,9 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
                     "content": user_message
                 }
             ],
-            #temperature=0.0,
-            max_tokens=300
-            #max_completion_tokens=300
+            temperature=0.0,  # change or disable based on gpt-model
+            max_tokens=300    # works with 4o and 4.1
+            #max_completion_tokens=300  # for some gpt-models
         )
     except Exception as e:
         print(f"Error with query {query_id}: {e}")
@@ -124,7 +124,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
 #    time.sleep(30)  # adjust for TPM limit
 
-all_results_file = output_dir / f"gpt_4.1_mini_retrievals_{lang}.txt"
+all_results_file = output_dir / f"gpt4.1.mini_pw_retrievals_{lang}.txt"
 with open(all_results_file, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
 
