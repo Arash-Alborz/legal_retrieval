@@ -1,9 +1,9 @@
 
 BM25 Evaluation Results for language: NL
-recall@10: 0.2362
-recall@50: 0.3332
-recall@100: 0.3803
-recall@200: 0.4817
-recall@500: 0.5515
+recall@10: 0.2337
+recall@50: 0.3348
+recall@100: 0.3762
+recall@200: 0.4714
+recall@500: 0.5356
 map@100: 0.1424
-mrr@100: 0.1827
+mrr@100: 0.1824

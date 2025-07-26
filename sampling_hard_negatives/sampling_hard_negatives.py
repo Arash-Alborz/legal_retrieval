@@ -9,7 +9,7 @@ TOP_K = 100
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 for lang in ["nl", "fr"]:
-    bm25_file = os.path.join(f"bm25_ranked_results_{lang}.json")
+    bm25_file = os.path.join(f"../baselines/ranks/bm25_ranked_results_{lang}.json")
     gold_file = os.path.join(f"gold_standard_{lang}.json")
     output_file = os.path.join(OUTPUT_DIR, f"hard_negatives_{lang}.jsonl")
 

@@ -13,14 +13,13 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # choose language
-lang = 'nl'  # or 'nl'
+lang = 'nl'  # or 'fr'
 
 # output folder
 output_dir = Path("retrievals")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 # load corpus
-#corpus_csv_path = f"../data_processing/data/original_csv/corpus_{lang}.csv"
 corpus_csv_path = f"../data_processing/data/cleaned_corpus/corpus_{lang}_cleaned.csv"
 df_corpus = pd.read_csv(corpus_csv_path)
 id_to_doc = dict(zip(df_corpus['id'].astype(str), df_corpus['article']))
@@ -38,38 +37,44 @@ with open(
 ) as f:
     entries = [json.loads(line) for line in f]
 
-# optional: slice for testing
-#entries = entries[:5]  # adjust as needed
 
 def build_user_message(query_id, query_text, candidate_docs):
+    # Build JSON skeleton with all IDs set to 0
+    relevance_dict = {doc['doc_id']: "?" for doc in candidate_docs}
+    json_skeleton = {
+        "query_id": str(query_id),
+        "relevance": relevance_dict
+    }
+
     msg = (
-        "Given the following legal question and 100 articles, identify which articles are relevant to answering the question. "
-        "There may be zero, one, or multiple relevant documents.\n\n"
-        f"Question:\n{query_text}\n\nDocuments:\n"
+        "You are given a legal question and 100 articles. Your task is to assess the relevance of **each article** to answering the question. "
+        "You MUST return exactly the JSON object shown below, updating only the values of the 'relevance' field. "
+        "For each article ID, replace every ? with:\n"
+        "  - 1 if the article is relevant\n"
+        "  - 0 if it is NOT relevant\n\n"
+        "Do not leave any ?.\n"
+        "Do not add, remove, or rename any keys.\n"
+        "Do not skip any article.\n"
+        f"Question:\n{query_text}\n\n"
+        f"Articles:\n"
     )
+
     for doc in candidate_docs:
         doc_id = doc['doc_id']
         article = id_to_doc[doc_id].strip().replace("\n", " ")
-        article = " ".join(article.split())  # truncate articles [:500]
+        article = " ".join(article.split())
         msg += f"[{doc_id}] {article}\n\n"
+
     msg += (
-        f"You must only select relevant article IDs from the documents listed above. "
-        f"Use the IDs exactly as shown inside brackets in front of the article text.\n\n"
-        f"Output the result in plain text. Write exactly two lines.\n"
-        f"On the first line write: query id: {query_id}\n"
-        f"On the second line write: relevant articles: followed by a comma-separated list of the IDs of the relevant documents.\n"
-        f"If no documents are relevant, leave the list empty.\n"
-        f"Example output:\n"
-        f"query id: 4\n"
-        f"relevant articles: 5851, 2242\n"
-        f"or if none:\n"
-        f"query id: 4\n"
-        f"relevant articles:\n"
-        "Output only these two lines and nothing else."
+        "Below is the JSON object for you to edit. "
+        "Change only the values of the 'relevance' field as per your judgment and return ONLY the updated JSON:\n\n"
+        f"{json.dumps(json_skeleton, indent=2)}"
     )
+
     return msg
 
-results_txt = []
+
+results_jsonl = []
 
 for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     query_id = entry['query_id']
@@ -84,7 +89,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4.1-mini-2025-04-14",
+            model="gpt-4.1-mini",
             messages=[
                 {
                     "role": "system",
@@ -98,22 +103,20 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
                     "content": user_message
                 }
             ],
-            temperature=0.0,  # change or disable based on gpt-model
-            max_tokens=300    # works with 4o and 4.1
-            #max_completion_tokens=300  # for some gpt-models
+            temperature=0.0,
+            max_tokens=1000  # adjust if needed
         )
     except Exception as e:
         print(f"Error with query {query_id}: {e}")
         continue
 
-    choice = response.choices[0]
-    raw_answer = choice.message.content.strip()
+    raw_answer = response.choices[0].message.content.strip()
     usage = response.usage
 
     input_tokens = usage.prompt_tokens
     output_tokens = usage.completion_tokens
 
-    results_txt.append(raw_answer + "\n")
+    results_jsonl.append(raw_answer)
 
     # log to terminal
     print(f"\n--- Query ID: {query_id} ---")
@@ -122,10 +125,10 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     print(f"GPT Answer:\n{raw_answer}")
     print(f"Tokens - Input: {input_tokens}, Output: {output_tokens}\n")
 
-#    time.sleep(30)  # adjust for TPM limit
 
-all_results_file = output_dir / f"gpt4.1.mini_pw_retrievals_{lang}.txt"
+all_results_file = output_dir / f"gpt4.1.mini_bin_class_retrievals_{lang}.jsonl"
 with open(all_results_file, "w", encoding="utf-8") as f_out:
-    f_out.writelines(results_txt)
+    for line in results_jsonl:
+        f_out.write(line + "\n")
 
 print(f"\nAll queries processed. Results saved in: {all_results_file}")
