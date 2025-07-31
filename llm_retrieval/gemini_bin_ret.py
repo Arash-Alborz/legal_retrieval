@@ -100,7 +100,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
                 #"response_mime_type": "application/json",
                 "thinking_config": {"thinking_budget": 0},
                 "temperature": 0.0,
-                "max_output_tokens": 1000,
+                #"max_output_tokens": 5000,
                 }
         )
 
@@ -130,9 +130,9 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
         continue
 
 # === Save results ===
-all_results_file = output_dir / f"gpt4.1.mini_bin_class_retrievals_{lang}.jsonl"
-with open(all_results_file, "w", encoding="utf-8") as f_out:
-    for line in results_jsonl:
-        f_out.write(line + "\n")
+output_path = output_dir / f"gemini_2.5.flash-lite_bin_class_retrievals_{lang}.jsonl"
+with open(output_path, "w", encoding="utf-8") as fout:
+    for obj in results_jsonl:
+        fout.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
 print(f"\nAll queries processed. Results saved to: {output_path}")

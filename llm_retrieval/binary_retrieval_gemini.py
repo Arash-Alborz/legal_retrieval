@@ -90,13 +90,13 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-pro",
+            model="gemini-2.5-flash-lite",
             contents=user_message,
             config={
                 #"response_mime_type": "application/json",
-                #"thinking_config": {"thinking_budget": 0},
+                "thinking_config": {"thinking_budget": 0},
                 "temperature": 0.0,
-                "max_output_tokens": 5000,
+                #"max_output_tokens": 5000,
             }
         )
 
@@ -116,7 +116,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
         continue
 
 # === Save ===
-output_path = output_dir / f"gemini_2.5.pro_bin__class_retrieval_{lang}.jsonl"
+output_path = output_dir / f"gemini_2.5.flash.lite_bin__class_retrieval_{lang}.jsonl"
 with open(output_path, "w", encoding="utf-8") as fout:
     for obj in results_jsonl:
         fout.write(json.dumps(obj, ensure_ascii=False) + "\n")
