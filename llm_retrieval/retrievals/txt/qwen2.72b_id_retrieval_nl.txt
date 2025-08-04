@@ -1,0 +1,2 @@
+query id: 4
+relevant articles: 8080, 8151, 8201, 9057, 7902, 7817

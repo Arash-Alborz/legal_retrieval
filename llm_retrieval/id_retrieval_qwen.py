@@ -1,54 +1,53 @@
 import os
 import json
 import random
+import time
 import pandas as pd
-from openai import OpenAI
 from dotenv import load_dotenv
 from tqdm import tqdm
+from together import Together
 from pathlib import Path
-import time
 
 # Load environment variables
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Together()
 
-# -------- CONFIG --------
+# choose language
 lang = 'nl'  # or 'fr'
+
+# output folder
 output_dir = Path("retrievals/txt")
 output_dir.mkdir(parents=True, exist_ok=True)
 
+# load corpus
 corpus_csv_path = f"../data_processing/data/cleaned_corpus/corpus_{lang}_cleaned.csv"
-queries_csv_path = f"../data_processing/data/cleaned_queries_csv/cleaned_test_queries_{lang}.csv"
-hard_negatives_path = f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl"
-output_file_path = output_dir / f"gpt4o.mini_sorted_ranking_{lang}.txt"
-
-# -------- LOAD DATA --------
 df_corpus = pd.read_csv(corpus_csv_path)
 id_to_doc = dict(zip(df_corpus['id'].astype(str), df_corpus['article']))
 
+# load queries
+queries_csv_path = f"../data_processing/data/cleaned_queries_csv/cleaned_test_queries_{lang}.csv"
 df_queries = pd.read_csv(queries_csv_path)
 query_texts = {str(row['id']): row['question'] for _, row in df_queries.iterrows()}
 
-with open(hard_negatives_path, "r", encoding="utf-8") as f:
+# load hard negatives
+with open(
+    f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl",
+    "r",
+    encoding="utf-8"
+) as f:
     entries = [json.loads(line) for line in f]
 
-entries = entries[30:31]  # Limit to first 5 queries
+entries = entries[:1]  # optional slice for testing
 
-# -------- PROMPT GENERATION --------
 def build_messages(query_id, query_text, candidate_docs):
     system_message = (
         "You are an experienced legal assistant in Belgian law, specialized in identifying relevant documents to answer legal questions. "
         "You are precise, concise, and follow the instructions exactly."
     )
 
-    candidate_ids = [doc["doc_id"] for doc in candidate_docs]
-    id_list_str = ", ".join(candidate_ids)
-
     user_message = (
-        f"Given the following legal question and 100 articles, rank the articles by how relevant they are to answering the question. "
-        "You must sort them from most relevant to least relevant.\n\n"
-        "You must include all of the 100 article IDs, even if they are not relevant.\n\n"
-        "Do not repeat any IDs. Do not invent any new IDs.\n\n"
+        "Given the following legal question and 100 articles, identify which articles are relevant to answering the question. "
+        "There may be zero, one, or multiple relevant documents.\n\n"
         f"Question:\n{query_text}\n\nDocuments:\n"
     )
 
@@ -56,16 +55,23 @@ def build_messages(query_id, query_text, candidate_docs):
         doc_id = doc['doc_id']
         article = id_to_doc[doc_id].strip().replace("\n", " ")
         article = " ".join(article.split())
-        user_message += f"[{doc_id}]: {article}\n\n"
+        #article = " ".join(article.split())[:800]  # rough character-based truncation
+        user_message += f"<{doc_id}>: {article}\n\n"
 
     user_message += (
-        f"Output only the ranked list of document IDs, sorted from most to least relevant. "
-        f"Write exactly two lines. On the first line write: query id: {query_id}\n"
-        f"On the second line write: ranked articles: followed by the comma-separated list of article IDs, in order of relevance only.\n\n.\n"
-        f"Example output:\nquery id: 4\nranked articles: 5851, 2242, 1950, 1004\n"
-        f"Output only these two lines and nothing else.\n"
-        f"You must rank all of the 100 article IDs in this list:\n[{id_list_str}].\n\n" 
-        f"You must **only** rank these 100 article IDs and nothing else.\n"
+        f"You must only select relevant article IDs from the documents listed above. "
+        f"Use the IDs exactly as shown inside brackets in front of the article text.\n\n"
+        f"Output the result in plain text. Write exactly two lines.\n"
+        f"On the first line write: query id: {query_id}\n"
+        f"On the second line write: relevant articles: followed by a comma-separated list of the IDs of the relevant documents.\n"
+        f"If no documents are relevant, leave the list empty.\n"
+        f"Example output:\n"
+        f"query id: 4\n"
+        f"relevant articles: 5851, 2242\n"
+        f"or if none:\n"
+        f"query id: 4\n"
+        f"relevant articles:\n"
+        f"Output only these two lines and nothing else."
     )
 
     return [
@@ -73,13 +79,13 @@ def build_messages(query_id, query_text, candidate_docs):
         {"role": "user", "content": user_message}
     ]
 
-# -------- MAIN EXECUTION --------
 results_txt = []
 
 for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     query_id = entry['query_id']
     query_text = query_texts[query_id]
     gold_ids = entry['relevant_ids']
+
     candidate_ids = entry['candidate_docs']
     random.shuffle(candidate_ids)
 
@@ -88,10 +94,10 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
             messages=messages,
             temperature=0.0,
-            max_tokens=500
+            max_tokens=200
         )
     except Exception as e:
         print(f"Error with query {query_id}: {e}")
@@ -99,22 +105,19 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     choice = response.choices[0]
     raw_answer = choice.message.content.strip()
-    usage = response.usage
-    input_tokens = usage.prompt_tokens
-    output_tokens = usage.completion_tokens
 
     results_txt.append(raw_answer + "\n")
 
     print(f"\n--- Query ID: {query_id} ---")
     print(f"Question: {query_text}")
     print(f"Gold IDs: {gold_ids}")
-    print(f"GPT Answer:\n{raw_answer}")
-    print(f"Tokens - Input: {input_tokens}, Output: {output_tokens}\n")
+    print(f"Qwen Answer:\n{raw_answer}\n")
 
-    time.sleep(10)  # adjust for TPM limit
+    time.sleep(10)  # throttle for safety
 
-# Write all results
-with open(output_file_path, "w", encoding="utf-8") as f_out:
+# Save output
+all_results_file = output_dir / f"qwen2.72b_id_retrieval_{lang}.txt"
+with open(all_results_file, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
 
-print(f"\nAll queries processed. Results saved in: {output_file_path}")
+print(f"\nAll queries processed. Results saved in: {all_results_file}")
