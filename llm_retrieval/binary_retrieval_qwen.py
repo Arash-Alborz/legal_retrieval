@@ -3,54 +3,54 @@ import json
 import random
 import time
 import pandas as pd
-from openai import OpenAI
 from dotenv import load_dotenv
 from tqdm import tqdm
 from pathlib import Path
+from together import Together
 
-# Load environment variables
+# === Setup ===
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 
-# Configuration
+# --- Config ---
 lang = 'nl'  # or 'fr'
-output_dir = Path("rankings")
+output_dir = Path("retrievals")
 output_dir.mkdir(parents=True, exist_ok=True)
 
-# Load corpus
 corpus_csv_path = f"../data_processing/data/cleaned_corpus/corpus_{lang}_cleaned.csv"
+queries_csv_path = f"../data_processing/data/cleaned_queries_csv/cleaned_test_queries_{lang}.csv"
+hard_negatives_path = f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl"
+output_file_path = output_dir / f"qwen3.235b_bin_class_retrieval_{lang}.jsonl"
+
+# --- Load Data ---
 df_corpus = pd.read_csv(corpus_csv_path)
 id_to_doc = dict(zip(df_corpus['id'].astype(str), df_corpus['article']))
 
-# Load queries
-queries_csv_path = f"../data_processing/data/cleaned_queries_csv/cleaned_test_queries_{lang}.csv"
 df_queries = pd.read_csv(queries_csv_path)
 query_texts = {str(row['id']): row['question'] for _, row in df_queries.iterrows()}
 
-# Load candidate sets
-with open(
-    f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl",
-    "r", encoding="utf-8"
-) as f:
+with open(hard_negatives_path, "r", encoding="utf-8") as f:
     entries = [json.loads(line) for line in f]
 
-entries = entries[:1]
+entries=entries[150:]
 
-# Prompt builder for pointwise score-based ranking
+# --- Prompt Construction ---
 def build_user_message(query_id, query_text, candidate_docs):
     relevance_dict = {doc['doc_id']: "?" for doc in candidate_docs}
     json_skeleton = {
         "query_id": str(query_id),
-        "relevance_scores": relevance_dict
+        "relevance": relevance_dict
     }
 
     msg = (
-        "You are given a legal question and 100 articles. Your task is to assign a relevance **score** to each article. "
-        "Scores must be between 1 and 100, where:\n"
-        "- 100 = perfectly relevant\n"
-        "- 1 = completely irrelevant\n"
-        "- Use the full range to reflect subtle differences.\n\n"
-        "Do not add, remove, or skip any article IDs.\n"
+        "You are given a legal question and 100 articles. Your task is to assess the relevance of **each article** to answering the question. "
+        "You MUST return exactly the JSON object shown below, updating only the values of the 'relevance' field. "
+        "For each article ID, replace every ? with:\n"
+        "  - 1 if the article is relevant\n"
+        "  - 0 if it is NOT relevant\n\n"
+        "Do not leave any ?.\n"
+        "Do not add, remove, or rename any keys.\n"
+        "Do not skip any article.\n"
         f"Question:\n{query_text}\n\n"
         f"Articles:\n"
     )
@@ -63,29 +63,29 @@ def build_user_message(query_id, query_text, candidate_docs):
 
     msg += (
         "Below is the JSON object for you to edit. "
-        "Replace every ? with a score between 1 and 100, using only integers. "
-        "Return ONLY the completed JSON object, nothing else:\n\n"
+        "Change only the values of the 'relevance' field as per your judgment and return ONLY the updated JSON:\n\n"
         f"{json.dumps(json_skeleton, indent=2)}"
     )
 
     return msg
 
-# Main inference loop
+# --- Inference Loop ---
 results_jsonl = []
 
 for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     query_id = entry['query_id']
     query_text = query_texts[query_id]
     gold_ids = entry['relevant_ids']
+
     candidate_ids = entry['candidate_docs']
     random.shuffle(candidate_ids)
-
     candidate_docs = [{"doc_id": doc_id} for doc_id in candidate_ids]
+
     user_message = build_user_message(query_id, query_text, candidate_docs)
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4.1-mini",
+            model="Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
             messages=[
                 {
                     "role": "system",
@@ -100,29 +100,26 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
                 }
             ],
             temperature=0.0,
-            max_tokens=1000
+            max_tokens=1500
         )
+
+        raw_answer = response.choices[0].message.content.strip()
+        results_jsonl.append(raw_answer)
+
+        print(f"\n--- Query ID: {query_id} ---")
+        print(f"Question: {query_text}")
+        print(f"Gold IDs: {gold_ids}")
+        print(f"Qwen Answer:\n{raw_answer}\n")
+
+        time.sleep(15)  # Adjust as needed
+
     except Exception as e:
         print(f"Error with query {query_id}: {e}")
         continue
 
-    raw_answer = response.choices[0].message.content.strip()
-    usage = response.usage
-    input_tokens = usage.prompt_tokens
-    output_tokens = usage.completion_tokens
-
-    results_jsonl.append(raw_answer)
-
-    print(f"\n--- Query ID: {query_id} ---")
-    print(f"Question: {query_text}")
-    print(f"Gold IDs: {gold_ids}")
-    print(f"GPT Answer:\n{raw_answer}")
-    print(f"Tokens - Input: {input_tokens}, Output: {output_tokens}\n")
-
-# Save output
-output_file = output_dir / f"gpt4.1.mini_score_ranking_{lang}.jsonl"
-with open(output_file, "w", encoding="utf-8") as f_out:
+# --- Write Results ---
+with open(output_file_path, "w", encoding="utf-8") as f_out:
     for line in results_jsonl:
         f_out.write(line + "\n")
 
-print(f"\nAll queries processed. Results saved in: {output_file}")
+print(f"\nAll queries processed. Results saved in: {output_file_path}")

@@ -37,7 +37,7 @@ with open(
 ) as f:
     entries = [json.loads(line) for line in f]
 
-entries = entries[:1]  # optional slice for testing
+#entries = entries[39:40]  # optional slice for testing
 
 def build_messages(query_id, query_text, candidate_docs):
     system_message = (
@@ -93,8 +93,8 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     messages = build_messages(query_id, query_text, candidate_docs)
 
     try:
-        response = client.chat.completions.create(
-            model="Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
+        response = client.chat.completions.create(                                          # Qwen/Qwen3-235B-A22B-Instruct-2507-tput
+            model="Qwen/Qwen3-235B-A22B-Instruct-2507-tput", #Qwen/Qwen2.5-VL-72B-Instruct  # Qwen/Qwen3-235B-A22B-Instruct-2507-tput 
             messages=messages,
             temperature=0.0,
             max_tokens=200
@@ -116,7 +116,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     time.sleep(10)  # throttle for safety
 
 # Save output
-all_results_file = output_dir / f"qwen2.72b_id_retrieval_{lang}.txt"
+all_results_file = output_dir / f"qwen3-235B_id_retrieval_{lang}.txt"
 with open(all_results_file, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
 
