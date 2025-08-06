@@ -3,40 +3,37 @@ import json
 import random
 import time
 import pandas as pd
-from openai import OpenAI
 from dotenv import load_dotenv
 from tqdm import tqdm
 from pathlib import Path
+from together import Together
 
-# Load environment variables
+# === Load environment and set up Qwen ===
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Together()
 
-# Configuration
+# === Configuration ===
 lang = 'nl'  # or 'fr'
 output_dir = Path("rankings/scored")
 output_dir.mkdir(parents=True, exist_ok=True)
 
-# Load corpus
+# === Load corpus ===
 corpus_csv_path = f"../data_processing/data/cleaned_corpus/corpus_{lang}_cleaned.csv"
 df_corpus = pd.read_csv(corpus_csv_path)
 id_to_doc = dict(zip(df_corpus['id'].astype(str), df_corpus['article']))
 
-# Load queries
+# === Load queries ===
 queries_csv_path = f"../data_processing/data/cleaned_queries_csv/cleaned_test_queries_{lang}.csv"
 df_queries = pd.read_csv(queries_csv_path)
 query_texts = {str(row['id']): row['question'] for _, row in df_queries.iterrows()}
 
-# Load candidate sets
-with open(
-    f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl",
-    "r", encoding="utf-8"
-) as f:
+# === Load candidate sets ===
+with open(f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl", "r", encoding="utf-8") as f:
     entries = [json.loads(line) for line in f]
 
-#entries = entries[:1]
+entries = entries[8:17]  
 
-# Prompt builder for pointwise score-based ranking
+# === Prompt builder ===
 def build_user_message(query_id, query_text, candidate_docs):
     relevance_dict = {doc['doc_id']: "?" for doc in candidate_docs}
     json_skeleton = {
@@ -70,7 +67,7 @@ def build_user_message(query_id, query_text, candidate_docs):
 
     return msg
 
-# Main inference loop
+# === Inference loop ===
 results_jsonl = []
 
 for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
@@ -83,44 +80,52 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     candidate_docs = [{"doc_id": doc_id} for doc_id in candidate_ids]
     user_message = build_user_message(query_id, query_text, candidate_docs)
 
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "You are an experienced legal assistant in Belgian law, specialized in identifying relevant documents to answer legal questions. "
+                "You are precise, concise, and follow the instructions exactly."
+            )
+        },
+        {
+            "role": "user",
+            "content": user_message
+        }
+    ]
+
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are an experienced legal assistant in Belgian law, specialized in identifying relevant documents to answer legal questions. "
-                        "You are precise, concise, and follow the instructions exactly."
-                    )
-                },
-                {
-                    "role": "user",
-                    "content": user_message
-                }
-            ],
+            model="Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
+            messages=messages,
             temperature=0.0,
-            max_tokens=1000
+            max_tokens=1500
         )
+        choice = response.choices[0]
+        raw_answer = choice.message.content.strip()
+
+        # Clean up Markdown-wrapped JSON if present
+        if raw_answer.startswith("```"):
+            raw_answer = raw_answer.strip("`").strip()
+            if raw_answer.startswith("json"):
+                raw_answer = raw_answer[4:].strip()
+
+        results_jsonl.append(raw_answer)
+
+        # Log to terminal
+        print(f"\n--- Query ID: {query_id} ---")
+        print(f"Question: {query_text}")
+        print(f"Gold IDs: {gold_ids}")
+        print(f"Qwen Answer:\n{raw_answer}\n")
+
+        time.sleep(1)  # Be polite
+
     except Exception as e:
         print(f"Error with query {query_id}: {e}")
         continue
 
-    raw_answer = response.choices[0].message.content.strip()
-    usage = response.usage
-    input_tokens = usage.prompt_tokens
-    output_tokens = usage.completion_tokens
-
-    results_jsonl.append(raw_answer)
-
-    print(f"\n--- Query ID: {query_id} ---")
-    print(f"Question: {query_text}")
-    print(f"Gold IDs: {gold_ids}")
-    print(f"GPT Answer:\n{raw_answer}")
-    print(f"Tokens - Input: {input_tokens}, Output: {output_tokens}\n")
-
-# Save output
-output_file = output_dir / f"gpt4o.mini_score_ranking_{lang}.jsonl"
+# === Save raw model output ===
+output_file = output_dir / f"qwen3.235b_score_ranking_{lang}.jsonl"
 with open(output_file, "w", encoding="utf-8") as f_out:
     for line in results_jsonl:
         f_out.write(line + "\n")

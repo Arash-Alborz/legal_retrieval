@@ -4,38 +4,28 @@ import math
 from tqdm import tqdm
 from statistics import mean
 
-#predictions_json = Path("retrievals/json/gemini_2.5_flash_id_retrieval_nl.json")              # id_retr:                      gemini 2.5. Flash
-#predictions_json = Path("retrievals/json/gemini_2.5_flash_pro_id_retrieval_nl.json")          # id_retr:                      gemini 2.5. pro
+#predictions_json = Path("rankings/scored/json/gpt4.1.mini.ranks.nl.jsonl") 
+#predictions_json = Path("rankings/scored/json/gpt4o.mini.ranks.nl.jsonl") 
 
-#predictions_json = Path("retrievals/json/gpt4.1.mini_id_retrieval_nl.json")                   # id_retr:                      gpt 4.1 - mini
-#predictions_json = Path("retrievals/json/gpt4o.mini_id_retrieval_nl.json")                    # id_retr:                      gpt 4o - mini
+#predictions_json = Path("rankings/scored/json/gemini2.5.flash.ranks.nl.jsonl") 
 
-#predictions_json = Path("retrievals/json/llama3.3.70b_id_retrieval_nl.json")                  # id_retr:                      llama3.3.70b
-#predictions_json = Path("retrievals/json/qwen3-235B_id_retrieval_nl.json")                     # id_retr:                      qwen3-235B
+#predictions_json = Path("rankings/scored/json/qwen3.235b.ranks.nl.jsonl") 
+predictions_json = Path("rankings/scored/json/llama3.3.70b.ranks.nl.jsonl") 
 
-#predictions_json = Path("retrievals/json/gpt4.1.mini_bin_class_retrieval_nl.json")            # binary_classification_retr:   gpt 4.1 - mini
-#predictions_json = Path("retrievals/json/gpt4o.mini_bin_class_retrieval_nl.json")             # binary_classification_retr:   gpt 4.1 - mini
-
-#predictions_json = Path("retrievals/json/llama3.3.70b_bin_class_retrieval_nl.json")           # binary_classification_retr:   llama3.3-70b
-predictions_json = Path("retrievals/json/qwen3.235b_bin_class_retrieval_nl.json")              # binary_classification_retr:   qwen3-236b
-
-#predictions_json = Path("retrievals/json/gemini_2.5.flash_bin_class_retrieval_nl.json") 
-
-
-
-#predictions_json = Path("rankings/scored/json/gpt.4.1.mini.ranks.nl.jsonl") 
 
 gold_json = Path("gold_data/gold_standard_nl.json")
 output_dir = Path("evaluation")
 output_dir.mkdir(parents=True, exist_ok=True)
-output_file = output_dir / "eval_binary_retrieval_qwen3-235B.txt"                 # eval txt name template: [  eval_id_retrieval_model.txt  ] --> change model name
-                                                                                  # eval txt name template: [  eval_binary_retrieval_model.txt  ] --> change model name
+output_file = output_dir / "eval_scored_ranking_llama3.3.70b.txt" 
 
 ks = [1, 5, 10, 20, 50, 100]
 
-# load predictions
+# load predictions from JSONL
+predictions = {}
 with open(predictions_json, encoding="utf-8") as f:
-    predictions = json.load(f)
+    for line in f:
+        item = json.loads(line)
+        predictions[item["query_id"]] = item["ranks"]
 
 # load gold
 with open(gold_json, encoding="utf-8") as f:
