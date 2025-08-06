@@ -31,7 +31,7 @@ query_texts = {str(row['id']): row['question'] for _, row in df_queries.iterrows
 with open(f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl", "r", encoding="utf-8") as f:
     entries = [json.loads(line) for line in f]
 
-#entries = entries[:1]  # Adjust as needed
+entries = entries[190:191]  # Adjust as needed
 
 # === Prompt builder ===
 def build_user_message(query_id, query_text, candidate_docs):
@@ -96,7 +96,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     try:
         response = client.chat.completions.create(
-            model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+            model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
             messages=messages,
             temperature=0.0,
             max_tokens=1500
@@ -118,14 +118,14 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
         print(f"Gold IDs: {gold_ids}")
         print(f"LLaMA Answer:\n{raw_answer}\n")
 
-        time.sleep(1)  # Be polite
+        time.sleep(1)  
 
     except Exception as e:
         print(f"Error with query {query_id}: {e}")
         continue
 
 # === Save raw model output ===
-output_file = output_dir / f"llama3.3.70b_score_ranking_{lang}.jsonl"
+output_file = output_dir / f"llama4.scout_score_ranking_{lang}.jsonl"
 with open(output_file, "w", encoding="utf-8") as f_out:
     for line in results_jsonl:
         f_out.write(line + "\n")

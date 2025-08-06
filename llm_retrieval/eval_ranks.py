@@ -10,13 +10,14 @@ from statistics import mean
 #predictions_json = Path("rankings/scored/json/gemini2.5.flash.ranks.nl.jsonl") 
 
 #predictions_json = Path("rankings/scored/json/qwen3.235b.ranks.nl.jsonl") 
-predictions_json = Path("rankings/scored/json/llama3.3.70b.ranks.nl.jsonl") 
+#predictions_json = Path("rankings/scored/json/llama3.3.70b.ranks.nl.jsonl") 
+predictions_json = Path("rankings/scored/json/llama4.scout.ranks.nl.jsonl") 
 
 
 gold_json = Path("gold_data/gold_standard_nl.json")
 output_dir = Path("evaluation")
 output_dir.mkdir(parents=True, exist_ok=True)
-output_file = output_dir / "eval_scored_ranking_llama3.3.70b.txt" 
+output_file = output_dir / "eval_scored_ranking_llama4.scout.txt" 
 
 ks = [1, 5, 10, 20, 50, 100]
 
