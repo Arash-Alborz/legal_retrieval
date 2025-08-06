@@ -20,7 +20,7 @@ output_dir.mkdir(parents=True, exist_ok=True)
 corpus_csv_path = f"../data_processing/data/cleaned_corpus/corpus_{lang}_cleaned.csv"
 queries_csv_path = f"../data_processing/data/cleaned_queries_csv/cleaned_test_queries_{lang}.csv"
 hard_negatives_path = f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl"
-output_file_path = output_dir / f"llama3.3.70b_bin_class_retrievals_{lang}.jsonl"
+output_file_path = output_dir / f"llama4.scout_bin_class_retrievals_{lang}.jsonl"
 
 # -------- LOAD DATA --------
 df_corpus = pd.read_csv(corpus_csv_path)
@@ -33,7 +33,7 @@ with open(hard_negatives_path, "r", encoding="utf-8") as f:
     entries = [json.loads(line) for line in f]
 
 # Optional test slice
-#entries = entries[:2]
+entries = entries[199:200]
 
 # -------- PROMPT GENERATION --------
 def build_user_message(query_id, query_text, candidate_docs):
@@ -52,6 +52,7 @@ def build_user_message(query_id, query_text, candidate_docs):
         "Do not leave any ?.\n"
         "Do not add, remove, or rename any keys.\n"
         "Do not skip any article.\n"
+        "Do not explain anything and only return the json file.\n"
         f"Question:\n{query_text}\n\n"
         f"Articles:\n"
     )
@@ -85,7 +86,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     try:
         response = client.chat.completions.create(
-            model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
+            model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
             messages=[
                 {
                     "role": "system",
@@ -115,7 +116,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     print(f"LLaMA Answer:\n{raw_answer}")
     print(f"{'-'*40}\n")
 
-    time.sleep(10)  # throttle as needed
+    time.sleep(10)  # change as needed
 
 # -------- WRITE OUTPUT --------
 with open(output_file_path, "w", encoding="utf-8") as f_out:

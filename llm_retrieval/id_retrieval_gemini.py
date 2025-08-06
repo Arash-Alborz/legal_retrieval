@@ -90,7 +90,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
             contents=user_message,
             config={
                 "response_mime_type": "application/json",
-                "response_schema": RetrievalResult,
+                #"response_schema": RetrievalResult,
                 "thinking_config": {"thinking_budget": 0}
             }
         )

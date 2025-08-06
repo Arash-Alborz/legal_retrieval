@@ -63,7 +63,7 @@ def build_user_message(query_id, query_text, candidate_docs):
         doc_id = doc['doc_id']
         article = id_to_doc[doc_id].strip().replace("\n", " ")
         article = " ".join(article.split())
-        msg += f"[{doc_id}] {article}\n\n"
+        msg += f"<{doc_id}>: {article}\n\n"
 
     msg += (
         "Below is the JSON object for you to edit. "

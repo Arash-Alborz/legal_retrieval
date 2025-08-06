@@ -11,22 +11,24 @@ from statistics import mean
 #predictions_json = Path("retrievals/json/gpt4o.mini_id_retrieval_nl.json")                    # id_retr:                      gpt 4o - mini
 
 #predictions_json = Path("retrievals/json/llama3.3.70b_id_retrieval_nl.json")                  # id_retr:                      llama3.3.70b
-#predictions_json = Path("retrievals/json/qwen3-235B_id_retrieval_nl.json")                     # id_retr:                      qwen3-235B
+predictions_json = Path("retrievals/json/llama4.scout_id_retrieval_nl.json")                  # id_retr:                      llama4.scout(17Bx16B)
+#predictions_json = Path("retrievals/json/qwen3-235B_id_retrieval_nl.json")                    # id_retr:                      qwen3-235B
 
 #predictions_json = Path("retrievals/json/gpt4.1.mini_bin_class_retrieval_nl.json")            # binary_classification_retr:   gpt 4.1 - mini
 #predictions_json = Path("retrievals/json/gpt4o.mini_bin_class_retrieval_nl.json")             # binary_classification_retr:   gpt 4.1 - mini
 
 #predictions_json = Path("retrievals/json/llama3.3.70b_bin_class_retrieval_nl.json")           # binary_classification_retr:   llama3.3-70b
+predictions_json = Path("retrievals/json/llama4.scout_bin_class_retrieval_nl.json")           # binary_classification_retr:   llama4.scout(17Bx16B)
 #predictions_json = Path("retrievals/json/qwen3.235b_bin_class_retrieval_nl.json")              # binary_classification_retr:   qwen3-236b
 
-predictions_json = Path("retrievals/json/gemini_2.5.flash_bin_class_retrieval_nl.json") 
+#predictions_json = Path("retrievals/json/gemini_2.5.flash_bin_class_retrieval_nl.json") 
 
 
 
 gold_json = Path("gold_data/gold_standard_nl.json")
 output_dir = Path("evaluation")
 output_dir.mkdir(parents=True, exist_ok=True)
-output_file = output_dir / "eval_binary_retrieval_gemini2.5.flash.txt"                 # eval txt name template: [  eval_id_retrieval_model.txt  ] --> change model name
+output_file = output_dir / "eval_binary_retrieval_llama4.scout.txt"                 # eval txt name template: [  eval_id_retrieval_model.txt  ] --> change model name
                                                                                   # eval txt name template: [  eval_binary_retrieval_model.txt  ] --> change model name
 
 ks = [1, 5, 10, 20, 50, 100]

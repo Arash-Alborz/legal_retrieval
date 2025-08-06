@@ -56,7 +56,7 @@ def build_messages(query_id, query_text, candidate_docs):
         doc_id = doc['doc_id']
         article = id_to_doc[doc_id].strip().replace("\n", " ")
         article = " ".join(article.split())  # truncate articles [:500]
-        user_message += f"[{doc_id}] {article}\n\n"
+        user_message += f"<{doc_id}>: {article}\n\n"
 
     user_message += (
         f"You must only select relevant article IDs from the documents listed above. "
