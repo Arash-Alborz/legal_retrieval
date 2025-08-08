@@ -33,7 +33,7 @@ with open(hard_negatives_path, "r", encoding="utf-8") as f:
     entries = [json.loads(line) for line in f]
 
 # Optional test slice
-entries = entries[199:200]
+entries = entries[163:164]
 
 # -------- PROMPT GENERATION --------
 def build_user_message(query_id, query_text, candidate_docs):

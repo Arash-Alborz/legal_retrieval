@@ -4,6 +4,9 @@ import math
 from tqdm import tqdm
 from statistics import mean
 
+'''
+>>> scored_ranking Files
+'''
 #predictions_json = Path("rankings/scored/json/gpt4.1.mini.ranks.nl.jsonl") 
 #predictions_json = Path("rankings/scored/json/gpt4o.mini.ranks.nl.jsonl") 
 
@@ -11,7 +14,14 @@ from statistics import mean
 
 #predictions_json = Path("rankings/scored/json/qwen3.235b.ranks.nl.jsonl") 
 #predictions_json = Path("rankings/scored/json/llama3.3.70b.ranks.nl.jsonl") 
-predictions_json = Path("rankings/scored/json/llama4.scout.ranks.nl.jsonl") 
+#predictions_json = Path("rankings/scored/json/llama4.scout.ranks.nl.jsonl") 
+
+
+'''
+>>> Sorted_ranking Files
+'''
+predictions_json = Path("rankings/gemini2.5.flash_sorted_ranking_nl.jsonl") 
+
 
 
 gold_json = Path("gold_data/gold_standard_nl.json")

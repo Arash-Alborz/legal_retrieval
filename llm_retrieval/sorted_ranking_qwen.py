@@ -6,11 +6,11 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 from pathlib import Path
 import time
-from google import genai
+from together import Together
 
 # === Setup ===
 load_dotenv()
-client = genai.Client()
+client = Together()
 
 # -------- CONFIG --------
 lang = 'nl'  # or 'fr'
@@ -20,7 +20,7 @@ output_dir.mkdir(parents=True, exist_ok=True)
 corpus_csv_path = f"../data_processing/data/cleaned_corpus/corpus_{lang}_cleaned.csv"
 queries_csv_path = f"../data_processing/data/cleaned_queries_csv/cleaned_test_queries_{lang}.csv"
 hard_negatives_path = f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl"
-output_file_path = output_dir / f"gemini2.0.flash_sorted_ranking_{lang}.txt"
+output_file_path = output_dir / f"qwen3.235b_sorted_ranking_{lang}.txt"
 
 # -------- LOAD DATA --------
 df_corpus = pd.read_csv(corpus_csv_path)
@@ -32,10 +32,10 @@ query_texts = {str(row['id']): row['question'] for _, row in df_queries.iterrows
 with open(hard_negatives_path, "r", encoding="utf-8") as f:
     entries = [json.loads(line) for line in f]
 
-entries = entries[:1]  # Limit to first 5 queries
+#entries = entries[:1]  # limit for testing
 
 # -------- PROMPT GENERATION --------
-def build_messages(query_id, query_text, candidate_docs):
+def build_prompt(query_id, query_text, candidate_docs):
     system_message = (
         "You are an experienced legal assistant in Belgian law, specialized in identifying relevant documents to answer legal questions. "
         "You are precise, concise, and follow the instructions exactly."
@@ -47,7 +47,7 @@ def build_messages(query_id, query_text, candidate_docs):
     user_message = (
         f"Given the following legal question and 100 articles, rank the articles by how relevant they are to answering the question. "
         "You must sort them from most relevant to least relevant.\n\n"
-        "You must include all of the 100 article IDs, even if they are not relevant.\n\n"
+        "You must include all of the 100 article IDs, even if they are not relevant.\n"
         "Do not repeat any IDs. Do not invent any new IDs.\n\n"
         f"Question:\n{query_text}\n\nDocuments:\n"
     )
@@ -59,15 +59,20 @@ def build_messages(query_id, query_text, candidate_docs):
         user_message += f"<{doc_id}>: {article}\n\n"
 
     user_message += (
-        f"Output only the ranked list of document IDs, sorted from most to least relevant. "
-        f"Write exactly two lines. On the first line write: query id: {query_id}\n"
-        f"On the second line write: ranked articles: followed by the comma-separated list of article IDs, in order of relevance only.\n\n.\n"
-        f"Example output:\nquery id: 4\nranked articles: 5851, 2242, 1950, 1004\n"
-        f"Output only these two lines and nothing else.\n"
-        f"You must use all of the 100 article IDs in this list:\n[{id_list_str}]\n\n for ranking and only these 100 article IDs and nothing else."
+        f"Output the result strictly in JSON format with two keys: 'query_id' and 'ranked_articles'. "
+        f"'query_id' must be exactly \"{query_id}\" (do not output the question text here). "
+        f"'ranked_articles' is a single string of the 100 article IDs separated by commas, in ranked order. "
+        f"Ensure that exactly these 100 article IDs appear, each once, and in your ranked order: [{id_list_str}]\n\n"
+        f"Example:\n"
+        f"{{\n  \"query_id\": \"{query_id}\",\n  \"ranked_articles\": \"5851, 2242, 1950, 1004, ...\"\n}}\n"
+        f"Output only valid JSON and nothing else."
     )
 
-    return system_message + "\n\n" + user_message
+    # Qwen via Together expects OpenAI-style messages
+    return [
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": user_message},
+    ]
 
 # -------- MAIN EXECUTION --------
 results_txt = []
@@ -79,21 +84,24 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     random.shuffle(candidate_ids)
 
     candidate_docs = [{"doc_id": doc_id} for doc_id in candidate_ids]
-    prompt = build_messages(query_id, query_text, candidate_docs)
+    messages = build_prompt(query_id, query_text, candidate_docs)
 
     try:
-        response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=prompt,
-            config={
-                "response_mime_type": "application/json",
-                "thinking_config": {"thinking_budget": 0},
-                "max_output_tokens": 1000
-            }
+        response = client.chat.completions.create(
+            model="Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
+            messages=messages,
+            temperature=0.0,
+            max_tokens=1500
         )
+        choice = response.choices[0]
+        result_text = choice.message.content.strip()
 
-        result_text = response.text.strip()
-        result_obj = json.loads(result_text)
+        # Try parsing JSON to make sure it's valid
+        try:
+            result_obj = json.loads(result_text)
+        except json.JSONDecodeError:
+            print(f"Warning: Could not parse JSON for query {query_id}. Raw output kept.")
+            result_obj = None
 
     except Exception as e:
         print(f"Error with query {query_id}: {e}")
@@ -103,8 +111,8 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     print(f"\n--- Query ID: {query_id} ---")
     print(f"Question: {query_text}")
-    print(f"Gemini Answer:\n{result_text}")
-    time.sleep(30)
+    print(f"Qwen Answer:\n{result_text}")
+    time.sleep(10)
 
 # Write all results
 with open(output_file_path, "w", encoding="utf-8") as f_out:

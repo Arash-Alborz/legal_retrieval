@@ -38,7 +38,7 @@ with open(
 ) as f:
     entries = [json.loads(line) for line in f]
 
-entries = entries[33:34]  # optional slice for testing
+#entries = entries[:1]  # optional slice for testing
 
 def build_messages(query_id, query_text, candidate_docs):
     system_message = (
@@ -94,7 +94,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     try:
         response = client.chat.completions.create(
-            model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
+            model="meta-llama/Llama-3.3-70B-Instruct-Turbo",
             messages=messages,
             temperature=0.0,
             max_tokens=200
@@ -116,7 +116,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     time.sleep(10)  # throttle for safety
 
 # Save output
-all_results_file = output_dir / f"llama4.scout_id_retrieval_{lang}.txt"
+all_results_file = output_dir / f"llama3.3.70b_id_retrieval_{lang}.txt"
 with open(all_results_file, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
 
