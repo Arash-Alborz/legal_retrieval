@@ -1,0 +1,9 @@
+Macro-averaged metrics:
+Precision: 0.2369
+Recall:    0.5050
+F1 Score:  0.2699
+
+Micro-averaged metrics:
+Precision: 0.1710
+Recall:    0.4623
+F1 Score:  0.2496
