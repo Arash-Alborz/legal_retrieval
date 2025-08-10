@@ -28,7 +28,7 @@ predictions_json = Path("retrievals/json/llama4.scout_bin_class_retrieval_nl.jso
 gold_json = Path("gold_data/gold_standard_nl.json")
 output_dir = Path("evaluation")
 output_dir.mkdir(parents=True, exist_ok=True)
-output_file = output_dir / "eval_binary_retrieval_llama4.scout.txt"                 # eval txt name template: [  eval_id_retrieval_model.txt  ] --> change model name
+output_file = output_dir / "eval_binary_retrieval_ppllama4.scout.txt"                 # eval txt name template: [  eval_id_retrieval_model.txt  ] --> change model name
                                                                                   # eval txt name template: [  eval_binary_retrieval_model.txt  ] --> change model name
 
 ks = [1, 5, 10, 20, 50, 100]

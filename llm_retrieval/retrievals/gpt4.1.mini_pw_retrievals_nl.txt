@@ -1,0 +1,2 @@
+query id: 4
+relevant articles: 2222

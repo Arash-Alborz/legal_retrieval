@@ -38,7 +38,7 @@ with open(
     entries = [json.loads(line) for line in f]
 
 # optional: slice for testing
-#entries = entries[:5]  # adjust as needed
+entries = entries[:1]  # adjust as needed
 
 def build_messages(query_id, query_text, candidate_docs):
     system_message = (
