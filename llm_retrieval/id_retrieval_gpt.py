@@ -121,7 +121,7 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
 #    time.sleep(30)  # adjust for TPM limit
 
-all_results_file = output_dir / f"gpt4.1.mini_pw_retrievals_{lang}.txt"
+all_results_file = output_dir / f"gpt4.1.mini_pwii_retrievals_{lang}.txt"
 with open(all_results_file, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
 
