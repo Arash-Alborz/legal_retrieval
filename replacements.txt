@@ -1,0 +1,2 @@
+regex:OPENAI_API_KEY\s*=\s*[^ \n\r]+==>OPENAI_API_KEY=REMOVED
+regex:sk-[A-Za-z0-9_-]{20,}==>sk-REDACTED

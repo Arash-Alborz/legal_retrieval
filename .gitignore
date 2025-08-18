@@ -1,36 +1,34 @@
 # === large experiment artifacts ===
-baselines/ranks/
-baselines/embeddings/
-ranking/embeddings_jina/
-sampling_hard_negatives/bm25_ranked_results_*.json
+baselines/ranks/*.json*
+baselines/ranks/*.jsonl
+baselines/ranks/*.csv
+baselines/embeddings/*.pt
+ranking/embeddings_jina/*.pt
+sampling_hard_negatives/*.json
 
-# common large types
 *.pt
 *.arrow
 *.npz
 *.npy
 *.pkl
 
-# optional: big csv/json produced during runs
-# (keep only curated small files elsewhere)
 *.json
 *.jsonl
 *.csv
 
-# keep small analysis gold files if you store them here:
+# exceptions
 !data_analysis/gold_standard_nl.json
 !data_analysis/hard_negatives_nl.jsonl
 !results/*.csv
 !results/*.txt
 !results/plots/*
 
-# env / cache / OS junk
+!*.py
+!*.ipynb
+
+
 .env
 __pycache__/
 *.pyc
 *.ipynb_checkpoints
-.DS_Storebaselines/ranks/*.json*
-sampling_hard_negatives/*.json
-baselines/embeddings/
-ranking/embeddings_jina/
-baselines/ranks/e5_ranked_results_*.json
+.DS_Store

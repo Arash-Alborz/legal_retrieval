@@ -4,35 +4,25 @@ This repository contains the code, evaluation scripts, and results for the thesi
 The project evaluates multiple retrieval and ranking strategies across different models (Gemini, GPT, LLaMA, Qwen, Jina, mE5, etc.) on Belgian legal texts.
 
 ---
-
 ## 📂 Project Structure
 
+```text
 llm_legal_document_retrieval/
 │
-├── baselines/                  # baseline models and results (BM25, TF-IDF, etc.)
+├── baselines/                # baseline models and results (BM25, TF-IDF, etc.)
+├── data_processing/          # preprocessing scripts and cleaned datasets
+├── hard_negatives_stats/     # statistics and analysis of hard negatives
+├── llm_retrieval/            # main retrieval scripts with LLMs
+├── ranking/                  # reranking with embeddings (Jina, mE5, etc.)
+├── results/                  # final evaluation results and CSV summaries
+│   └── plots/                # evaluation plots and figures
+├── retrievals/               # raw retrieval outputs (per model & scenario)
+├── sampling_hard_negatives/  # generated hard negatives for evaluation
 │
-├── data_processing/             # preprocessing scripts and cleaned datasets
-│
-├── hard_negatives_stats/        # statistics and analysis of hard negatives
-│
-├── llm_retrieval/               # main retrieval scripts with LLMs
-│
-├── ranking/                     # reranking with embeddings (Jina, mE5, etc.)
-│
-├── results/                     # final evaluation results and CSV summaries
-│   └── plots/                   # evaluation plots and figures
-│
-├── retrievals/                  # raw retrieval outputs (per model & scenario)
-│
-├── sampling_hard_negatives/     # generated hard negatives for evaluation
-│
-├── .gitignore                   # ignored files (large embeddings, datasets, etc.)
-├── environment.yml              # conda environment definition
-├── extra_codes.ipynb            # additional experimental notebooks
-└── requirements.txt             # Python dependencies
-
----
-
+├── .gitignore                # ignored files (large embeddings, datasets, etc.)
+├── environment.yml           # conda environment definition
+├── extra_codes.ipynb         # additional experimental notebooks
+└── requirements.txt          # Python dependencies
 ## ⚙️ Setup
 
 Clone the repository and set up the environment:
