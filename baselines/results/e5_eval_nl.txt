@@ -1,8 +1,0 @@
-E5 Evaluation Results for language: NL
-recall@10: 0.4270
-recall@50: 0.6026
-recall@100: 0.6730
-recall@200: 0.7343
-recall@500: 0.7853
-map@100: 0.2756
-mrr@100: 0.3935

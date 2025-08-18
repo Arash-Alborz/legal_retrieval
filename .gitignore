@@ -1,7 +1,16 @@
+# large experiment outputs
+baselines/
+ranking/embeddings_jina/
+sampling_hard_negatives/
+
+# common file types to ignore
 *.jsonl
 *.csv
 *.arrow
-*.ipynb_checkpoints
-data/
+*.pt
+
+# environment & cache
 .env
 __pycache__/
+*.ipynb_checkpoints
+.DS_Store
