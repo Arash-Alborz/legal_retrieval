@@ -12,7 +12,6 @@ from together import Together
 load_dotenv()
 client = Together()
 
-# -------- CONFIG --------
 lang = 'nl'  # or 'fr'
 output_dir = Path("rankings")
 output_dir.mkdir(parents=True, exist_ok=True)
@@ -22,7 +21,6 @@ queries_csv_path = f"../data_processing/data/cleaned_queries_csv/cleaned_test_qu
 hard_negatives_path = f"../sampling_hard_negatives/hard_negatives/hard_negatives_{lang}.jsonl"
 output_file_path = output_dir / f"llama3.3_70b_sorted_ranking_{lang}.txt"
 
-# -------- LOAD DATA --------
 df_corpus = pd.read_csv(corpus_csv_path)
 id_to_doc = dict(zip(df_corpus['id'].astype(str), df_corpus['article']))
 
@@ -33,8 +31,7 @@ with open(hard_negatives_path, "r", encoding="utf-8") as f:
     entries = [json.loads(line) for line in f]
 
 
-#entries= entries[:1]
-# -------- PROMPT GENERATION --------
+#entries= entries[:1] # test
 def build_prompt(query_id, query_text, candidate_docs):
     system_message = (
         "You are an experienced legal assistant in Belgian law, specialized in identifying relevant documents to answer legal questions. "
@@ -73,7 +70,6 @@ def build_prompt(query_id, query_text, candidate_docs):
         {"role": "user", "content": user_message},
     ]
 
-# -------- MAIN EXECUTION --------
 results_txt = []
 
 for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
@@ -95,13 +91,11 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
         choice = response.choices[0]
         result_text = choice.message.content.strip()
 
-        # Clean up Markdown-wrapped JSON if present
         if result_text.startswith("```"):
             result_text = result_text.strip("`").strip()
             if result_text.lower().startswith("json"):
                 result_text = result_text[4:].strip()
 
-        # Try parsing JSON just to check validity
         try:
             _ = json.loads(result_text)
         except json.JSONDecodeError:
@@ -118,8 +112,5 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
     print(f"LLaMA Answer:\n{result_text}")
     time.sleep(10)
 
-# Write all results
 with open(output_file_path, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
-
-print(f"\nAll queries processed. Results saved in: {output_file_path}")

@@ -114,7 +114,6 @@ for entry in tqdm(entries, desc=f"Processing queries for {lang.upper()}"):
 
     time.sleep(10)  # sleep time for TPM limit
 
-# Save output
 all_results_file = output_dir / f"qwen3-235B_id_retrieval_{lang}.txt"
 with open(all_results_file, "w", encoding="utf-8") as f_out:
     f_out.writelines(results_txt)
