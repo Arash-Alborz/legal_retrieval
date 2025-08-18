@@ -1,0 +1,32 @@
+{
+  "citation": "",
+  "description": "",
+  "features": {
+    "id": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "category": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "subcategory": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "question": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "extra_description": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "article_ids": {
+      "dtype": "string",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": ""
+}
