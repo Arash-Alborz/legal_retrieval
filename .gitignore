@@ -31,3 +31,6 @@ __pycache__/
 *.ipynb_checkpoints
 .DS_Storebaselines/ranks/*.json*
 sampling_hard_negatives/*.json
+baselines/embeddings/
+ranking/embeddings_jina/
+baselines/ranks/e5_ranked_results_*.json
