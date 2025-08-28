@@ -6,8 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 from sentence_transformers import SentenceTransformer
 
-# config
-lang = "fr"  # change to "nl" for Dutch
+lang = "fr" 
 CANDIDATES_FILE = f"hard_negatives/hard_negatives_{lang}.jsonl"
 DOC_EMB_PATH = f"../baselines/embeddings/document_embeddings_{lang}.pt"
 DOC_IDS_PATH = f"../baselines/embeddings/document_ids_{lang}.json"
@@ -18,7 +17,6 @@ OUTPUT_DETAILED = f"ranks/e5_reranked_{lang}_with_scores.jsonl"
 MODEL_NAME = "intfloat/multilingual-e5-large-instruct"
 os.makedirs("ranks", exist_ok=True)
 
-# mapping
 doc_embeddings = torch.load(DOC_EMB_PATH)
 with open(DOC_IDS_PATH) as f:
     doc_ids = json.load(f)

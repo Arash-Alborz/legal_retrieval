@@ -61,8 +61,7 @@ class Evaluator:
         for i, d in enumerate(results[:k]):
             rel_i = 1 if d in ground_truths else 0
             if rel_i > 0:
-                dcg += rel_i / log2(i + 2)  # i+2 because ranks start at 1
-        # Compute ideal DCG
+                dcg += rel_i / log2(i + 2) 
         ideal_rels = [1] * min(len(ground_truths), k)
         idcg = sum([rel / log2(idx + 2) for idx, rel in enumerate(ideal_rels)])
         return dcg / idcg if idcg > 0 else 0.0
@@ -101,8 +100,6 @@ def evaluate_language(lang):
             line = f"{metric}: {value:.4f}"
             print(line)
             f_out.write(line + "\n")
-
-    print(f"\nResults for {lang.upper()} saved to {output_file}")
 
 
 for lang in ["nl", "fr"]:
