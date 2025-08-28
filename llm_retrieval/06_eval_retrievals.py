@@ -1,14 +1,13 @@
 import json
 from sklearn.metrics import precision_recall_fscore_support
 
-# Load JSON files
+
 with open("../sampling_hard_negatives/gold_standard_nl.json") as f:
     gold_data = json.load(f)
 
 with open("retrievals/json/qwen3.235B_id_retrieval_nl.json") as f:
     output_data = json.load(f)
 
-# Initialize accumulators
 per_query_scores = {}
 total_tp = total_fp = total_fn = 0
 
@@ -37,17 +36,16 @@ for query_id in gold_data:
         "fn": fn
     }
 
-# Macro averages
+# macro
 macro_precision = sum(s["precision"] for s in per_query_scores.values()) / len(per_query_scores)
 macro_recall = sum(s["recall"] for s in per_query_scores.values()) / len(per_query_scores)
 macro_f1 = sum(s["f1"] for s in per_query_scores.values()) / len(per_query_scores)
 
-# Micro averages
+# micro
 micro_precision = total_tp / (total_tp + total_fp) if (total_tp + total_fp) > 0 else 0.0
 micro_recall = total_tp / (total_tp + total_fn) if (total_tp + total_fn) > 0 else 0.0
 micro_f1 = 2 * micro_precision * micro_recall / (micro_precision + micro_recall) if (micro_precision + micro_recall) > 0 else 0.0
 
-# Output results
 print("Macro-averaged metrics:")
 print(f"Precision: {macro_precision:.4f}")
 print(f"Recall:    {macro_recall:.4f}")
@@ -60,10 +58,8 @@ print(f"F1 Score:  {micro_f1:.4f}")
 
 import os
 
-# Create evaluation folder if it doesn't exist
 os.makedirs("retrievals/evaluation", exist_ok=True)
 
-# Save results to file
 with open("retrievals/evaluation/evaluation_id_retr_qwen3.235b.txt", "w") as f:
     f.write("Macro-averaged metrics:\n")
     f.write(f"Precision: {macro_precision:.4f}\n")

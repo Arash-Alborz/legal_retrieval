@@ -8,7 +8,6 @@ from pathlib import Path
 import time
 from together import Together
 
-# === Setup ===
 load_dotenv()
 client = Together()
 
